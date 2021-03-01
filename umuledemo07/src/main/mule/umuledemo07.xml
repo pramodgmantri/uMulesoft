@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="d1ba5452-ff6c-4f77-9f1d-7dcff851d170" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<vm:config name="VM_Config" doc:name="VM Config" doc:id="2b6c9ddc-649f-43d9-8e6a-aa39412f2122" >
+		<vm:queues >
+			<vm:queue queueName="CustomerQueue" />
+		</vm:queues>
+	</vm:config>
+	<flow name="PublishConsumeSynchronousFlow" doc:id="2d54758e-5b37-4975-9c10-abfdf2231948" >
+		<http:listener doc:name="/POST CustomerSync" doc:id="5d5f7506-81ae-43fd-85b3-bf09c4ff010a" config-ref="HTTP_Listener_config" path="/customersync"/>
+		<logger level="INFO" doc:name="Logger" doc:id="049f8de3-6630-4ee4-90d0-5021968adf56" message="#[payload]"/>
+		<logger level="INFO" doc:name="Logger" doc:id="f120380f-26e9-4099-b24d-714d4c4e5db6" message="** Before Synchronous Published **"/>
+		<vm:publish-consume queueName="CustomerQueue" doc:name="Publish consume" doc:id="af86c7cb-ab50-4786-8424-da4593ee6096" config-ref="VM_Config"/>
+		<logger level="INFO" doc:name="Logger" doc:id="c1242ac5-1eaa-4edc-a6e0-b147084ef48c" message="** Before Synchronous Published **"/>
+	</flow>
+	<flow name="PublishAsynchronousFlow" doc:id="ffe13d41-3e44-424c-a565-74c8373fb442" >
+		<http:listener doc:name="/POST Customer" doc:id="21b06de3-0c5d-4ff5-8fe3-ec70f05b5dd0" config-ref="HTTP_Listener_config" path="/customer" allowedMethods="POST"/>
+		<logger level="INFO" doc:name="Logger" doc:id="a8fce4b2-d762-4892-b999-049cee7e3940" message="#[payload]"/>
+		<logger level="INFO" doc:name="Logger" doc:id="7b4031f4-debc-4433-a765-5a5cf9816f0d" message="** Before Published **"/>
+		<vm:publish doc:name="Publish" doc:id="32eea183-5769-4031-b9ad-8a3deba59e89" config-ref="VM_Config" queueName="CustomerQueue"/>
+		<logger level="INFO" doc:name="Logger" doc:id="6ca541d8-19ee-42e7-ba8f-bb4441543f3a" message="** After Published **"/>
+	</flow>
+	<flow name="SubscriberFlow" doc:id="6eba3a76-ffe8-4157-af38-5bf13995956f" >
+		<vm:listener queueName="CustomerQueue" doc:name="Listener" doc:id="dc32042a-f432-4a50-bd2e-b5b9fab93077" config-ref="VM_Config"/>
+		<logger level="INFO" doc:name="Logger" doc:id="08a4d0d6-96a0-4e42-8a63-76afcba2fb4c" message="#[payload]"/>
+	</flow>
+</mule>

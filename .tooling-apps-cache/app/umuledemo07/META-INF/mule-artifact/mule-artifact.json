@@ -1,10 +1,10 @@
 {
   "configs": [
-    "umuledemo06.xml"
+    "umuledemo07.xml"
   ],
   "secureProperties": [],
   "redeploymentEnabled": true,
-  "name": "com.mycompany:umuledemo06:1.0.0-SNAPSHOT",
+  "name": "com.mycompany:umuledemo07:1.0.0-SNAPSHOT",
   "minMuleVersion": "4.3.0",
   "requiredProduct": "MULE",
   "classLoaderModelLoaderDescriptor": {
@@ -13,7 +13,7 @@
       "exportedPackages": [],
       "exportedResources": [
         "log4j2.xml",
-        "umuledemo06.xml"
+        "umuledemo07.xml"
       ]
     }
   },

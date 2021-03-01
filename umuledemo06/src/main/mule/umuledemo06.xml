@@ -12,10 +12,12 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 		<set-variable value="10" doc:name="Set Variable" doc:id="3ef27f61-4c30-410d-9678-bf01f4a2dcd5" variableName="var1"/>
 		<logger level="INFO" doc:name="MainFlowLogger" doc:id="8b643434-29be-4a48-b1ec-393a5d210708" message="** Main Flow got Invoked **"/>
 		<logger level="INFO" doc:name="Logger" doc:id="ff87fec6-ed54-437a-aea6-9ffee1f85fb2" message="#[vars.var1]" />
-		<flow-ref doc:name="Flow Reference" doc:id="216ba38d-9c09-4074-bf36-42e4db0e9863" name="SubFlow"/>
+		<flow-ref doc:name="Flow Reference" doc:id="216ba38d-9c09-4074-bf36-42e4db0e9863" name="PrivateFlow"/>
 	</flow>
 	<flow name="PrivateFlow" doc:id="2c48d8ce-4fe2-4934-9815-a622a0d5e2fa" >
+		<set-variable value="15" doc:name="Set Variable" doc:id="ae201491-d665-4048-86e6-f2dd392b5db9" variableName="var1"/>
 		<logger level="INFO" doc:name="Logger" doc:id="cf9ec0a6-2ca0-4444-b3e8-0febc4228412" message="** Private Flow Invoked **"/>
+		<logger level="INFO" doc:name="Logger" doc:id="e573834a-52f4-4377-8167-a6c3d99ad407" message="#[vars.var1]"/>
 	</flow>
 	<sub-flow name="SubFlow" doc:id="9ecd64c1-9a32-4c2e-8350-7f3b10350c7f" >
 		<logger level="INFO" doc:name="Logger" doc:id="dd20d9c7-e185-46cd-8bae-580bd2b7eafd" message="** SubFlow got Invoked ** "/>
