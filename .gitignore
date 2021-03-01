@@ -48,7 +48,7 @@ target/
 .mule/**
 .mule/**/*
 .tooling/
-.tolling-apps-cache/
+.tooling-apps-cache/
 **/*/mflow
 .DS_Store
 velocity.log
