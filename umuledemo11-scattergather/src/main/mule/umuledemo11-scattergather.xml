@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="feefd96b-1d1a-42ad-844e-5ab70c9dbd5c" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="umuledemo11-scattergatherFlow" doc:id="e5c61dff-87ed-402c-81ea-2f73b151bb79" >
+		<http:listener doc:name="/GET demo" doc:id="e3fcd03f-02f0-4bb8-8629-c09afac4120d" config-ref="HTTP_Listener_config" path="/demo" allowedMethods="GET"/>
+		<set-payload value='#[{"Message":"Payload before scatter gather"}]' doc:name="Set Payload" doc:id="aced6e06-0de8-46c5-9149-b875c55f4fbf" />
+		<logger level="INFO" doc:name="Logger" doc:id="27881e3c-6436-4f4d-8e57-239dcb6b8d66" message="** Before Scatter Gather **"/>
+		<scatter-gather doc:name="Scatter-Gather" doc:id="0f58906e-6184-4849-a5bd-13c3194e2be1" >
+			<route >
+				<logger level="INFO" doc:name="Logger" doc:id="77a7da5a-1e30-49bf-92c4-089d4db4795e" message="** Inside Scatter Gather Logger 1.1 **"/>
+				<logger level="INFO" doc:name="Logger" doc:id="412d79cd-f3ad-4beb-8d26-e08eb9a9acb1" message="** Inside Scatter Gather Logger 1.2 **"/>
+				<set-payload value='#[{"Message":"Payload before scatter gather in 1"}]' doc:name="Set Payload" doc:id="84069a80-96c8-4e02-9108-cb6e186c7bd3" />
+			</route>
+			<route >
+				<logger level="INFO" doc:name="Logger" doc:id="0c02193d-3241-406d-b7a8-e51ac73daa5e" message="** Inside Scatter Gather Logger 2.1 **"/>
+				<logger level="INFO" doc:name="Logger" doc:id="86e4c51c-0aad-4ff6-8ba0-2eda790c6e5d" message="** Inside Scatter Gather Logger 2.2 **"/>
+				<set-payload value='#[{"Message":"Payload before scatter gather in 2"}]' doc:name="Set Payload" doc:id="dc598613-986e-4642-8a36-92bfd94660bf" />
+			</route>
+		</scatter-gather>
+		<logger level="INFO" doc:name="Logger" doc:id="5ce18844-2673-4993-b17f-54fe5edd1cc2" message="#[payload]"/>
+	</flow>
+</mule>
