@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="umuledemo21-orderapplicationFlow" doc:id="de9c8c6e-11d1-48b5-9f8f-4cdabf14384f" >
+		<http:listener doc:name="/GET order" doc:id="f8c23148-5207-497b-990d-14ed83378d68" config-ref="HTTP_Listener_configMDomain" path="/order" allowedMethods="GET"/>
+		<set-payload value='{"message":"hello I am order payload"}' doc:name="Set Payload" doc:id="825b76cb-d0e8-4210-bdd5-367a997dab9d" />
+	</flow>
+</mule>

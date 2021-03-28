@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="9a9a864b-84fd-4359-8474-318596287f60" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="70164c50-55cf-4cca-96ff-9222f8282a63">
+		<http:request-connection protocol="HTTPS" host="gorest.co.in" />
+	</http:request-config>
+	<flow name="umuledemo22-asyncscopeFlow" doc:id="594997c7-a3f8-4166-aeea-a4dbf2fa8e5e" >
+		<http:listener doc:name="Listener" doc:id="a2b2049d-10b5-4370-8fbe-27131ef037a4" config-ref="HTTP_Listener_config" path="/async" allowedMethods="GET"/>
+		<logger level="INFO" doc:name="Logger" doc:id="a55f21a8-f929-419b-97d1-34e151491dde" message="Flow Start"/>
+		<async doc:name="Async" doc:id="d0fc2281-7039-4a73-ba53-80e01e8325e9" >
+			<http:request method="GET" doc:name="Request" doc:id="389169f3-7914-439f-9930-bf083e4e1e72" config-ref="HTTP_Request_configuration" path="/public-api/users"/>
+			<logger level="INFO" doc:name="Logger" doc:id="e147502a-ffa2-45c0-a0d2-e1ac3b314db2" message="#[payload]"/>
+		</async>
+		<logger level="INFO" doc:name="Logger" doc:id="2a7b2063-dd26-4767-83ea-5f93a1c0dda8" message="flow end"/>
+	</flow>
+</mule>
