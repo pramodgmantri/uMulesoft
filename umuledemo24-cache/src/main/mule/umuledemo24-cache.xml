@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="9b2e9dbb-f222-4a8e-b279-d156b1cdc602" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="f2aac10b-b946-4ed0-b4a9-b72fdbe68b75" basePath="/api/users/">
+		<http:request-connection host="reqres.in" protocol="HTTPS"/>
+	</http:request-config>
+	<ee:object-store-caching-strategy name="Caching_Strategy" doc:name="Caching Strategy" doc:id="ebd37418-91f5-4de4-8a95-027d1b5e319d" keyGenerationExpression="#[attributes.queryParams.employeeID]" />
+	<flow name="umuledemo24-cacheFlow" doc:id="0263f335-13ae-40e4-b5e2-56153208d313" >
+		<http:listener doc:name="/GET employee" doc:id="ef3d1832-610f-488c-88f1-fd7cfe6d6a7c" config-ref="HTTP_Listener_config" path="/employee" allowedMethods="GET"/>
+		<ee:cache doc:name="Cache" doc:id="630df344-b060-441a-a5f0-0f89da48dfbc" cachingStrategy-ref="Caching_Strategy">
+			<http:request method="GET" doc:name="Request" doc:id="915c2e38-90e0-4cfb-82d2-d72eb5d341c3" config-ref="HTTP_Request_configuration" path="#[attributes.queryParams.employeeID]" />
+			<logger level="INFO" doc:name="Logger" doc:id="25dd486b-d229-46c7-bad5-16e47cedb01a" message="Cache Miss"/>
+		</ee:cache>
+		<logger level="INFO" doc:name="Logger" doc:id="cedf16ce-b802-4ba5-9148-12089ae5f3e1" message="Cache Hit"/>
+	</flow>
+</mule>
